@@ -108,7 +108,7 @@
                 }
             }
         },
-        "/users/auth": {
+        "/users/login": {
             "post": {
                 "summary": "Authenticate user",
                 "description": "Authenticate a user using username and password",
@@ -272,12 +272,12 @@
                 "parameters": [
                     {
                         "in": "header",
-                        "name": "Authorization",
+                        "name": "X-Api-Key",
                         "required": true,
                         "schema": {
                             "type": "string"
                         },
-                        "description": "JSON Web Token"
+                        "description": "Api key"
                     }
                 ],
                 "requestBody": {
