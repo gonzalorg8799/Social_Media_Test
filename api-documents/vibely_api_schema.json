@@ -4,6 +4,12 @@
         "title": "Vibely API",
         "version": "1.0"
     },
+    "servers": [
+        {
+            "url": "http://localhost:5000",
+            "description": "vibely backend server"
+        }
+    ],
     "paths": {
         "/users/{username}": {
             "parameters": [
@@ -123,7 +129,7 @@
                                     }
                                 },
                                 "example": {
-                                    "username": "ElonMusk",
+                                    "username": "@jdoe",
                                     "password": "CyberMechanicus"
                                 }
                             }
@@ -210,6 +216,99 @@
                         }
                     }
                 }
+            }
+        },
+        "/users": {
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "search",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "user search"
+                }
+            ],
+            "get": {
+                "summary": "Search user",
+                "description": "Search user by username or nickname",
+                
+                "responses": {
+                    "200": {
+                        "description": "successful search",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "search": [
+                                        {
+                                            "username":"@jdoe",
+                                            "nickname":"John Doe"
+                                        },
+                                        {
+                                            "username": "@jonathan",
+                                            "nickname": "Jonathan"
+                                        },
+                                        {
+                                            "username": "@jennifer",
+                                            "nickname": "jen shaud57" 
+                                        }
+                                    ],
+                                    "total": 3
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User NOT FOUND"
+                    }
+                }
+            }
+
+        },
+        "/users/follow": {
+            "put": {
+                "description": "",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "JSON Web Token"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type":"object",
+                                "properties": {
+                                    "username":{
+                                        "type": "string",
+                                        "description": "name of the new friend"
+                                    }
+                                },
+                                "example": {
+                                    "username":"@jennifer",
+                                    "description":"@johndoe want to follow @jennifer"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400":{
+                        "description": "invalid username"
+                    }
+                }
+                
             }
         }
     }
