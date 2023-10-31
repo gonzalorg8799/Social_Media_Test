@@ -1,0 +1,216 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Vibely API",
+        "version": "1.0"
+    },
+    "paths": {
+        "/users/{username}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "username",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "The unique user's identifier"
+                }
+            ],
+            "get": {
+                "summary": "Get user's information",
+                "description": "Retrieve information about a specific user",
+                "responses": {
+                    "200": {
+                        "description": "user information retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "username": "@jdoe",
+                                    "nickname": "John Doe",
+                                    "email": "johndoe@email.com"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User NOT FOUND"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Modify user's information",
+                "description": "Modify specific user's information",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "JSON Web Token"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "oneOf": [
+                                    {
+                                        "type": "object",
+                                        "required": [
+                                            "password"
+                                        ],
+                                        "properties": {
+                                            "username": {
+                                                "type": "string",
+                                                "description": "User's name"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "description": "User's password"
+                                            },
+                                            "email": {
+                                                "type": "string",
+                                                "description": "User's email"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "example": {
+                                    "password": "CyberMechanicus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "successful modification"
+                    },
+                    "400": {
+                        "description": "invalid body",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "invalid body"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/auth": {
+            "post": {
+                "summary": "Authenticate user",
+                "description": "Authenticate a user using username and password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "users name"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "users password"
+                                    }
+                                },
+                                "example": {
+                                    "username": "ElonMusk",
+                                    "password": "CyberMechanicus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "authentication successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "token": "example_token",
+                                    "message": "Valid Credentials"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "authentication failed",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Invalid Credentials"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/signup": {
+            "post": {
+                "summary": "Sign up a new user",
+                "description": "",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "description": "users name"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "description": "users password"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "description": "users email"
+                                    }
+                                },
+                                "example": {
+                                    "username": "@jdoe",
+                                    "password": "CyberMechanicus",
+                                    "email": "johndoe@email.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Created!!"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Creation data is invalid",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "username or password is invalid"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
