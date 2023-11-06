@@ -8,8 +8,7 @@ public class Admin extends User {
 	public Admin() {
 		super();
 	}
-	public Admin(UUID userId, 
-				 String email, 
+	public Admin(String email, 
 				 String nickname, 
 				 String password, 
 				 Status status, 
@@ -20,8 +19,8 @@ public class Admin extends User {
 				 List<User> following 
 				 ){
 		
-		super( userId, 
-			   email, 
+		
+		 super(email, 
 			   nickname, 
 			   password, 
 			   status, 

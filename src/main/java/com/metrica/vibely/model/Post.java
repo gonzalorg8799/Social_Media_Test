@@ -11,9 +11,9 @@ public class Post {
 	private String content;
 	
 	public Post() {
-		
+		this.postId   = UUID.randomUUID();
 	}
-	public Post(UUID postId, int likes, int saved, int comments, String userId, String content) {
+	public Post(int likes, int saved, int comments, String userId, String content) {
 		super();
 		this.postId   = UUID.randomUUID();
 		this.likes 	  = likes;

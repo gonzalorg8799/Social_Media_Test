@@ -17,20 +17,20 @@ public class User {
 	private List<User> following;
 	
 	public User() {
-		
+		this.userId  	 = UUID.randomUUID();
 	}
-	public User(UUID userId, String email, String nickname, String password, Status status, LocalDate blockedDate,
+	public User(String email, String nickname, String password, Status status, LocalDate blockedDate,
 			Integer logins, PrivacyType privacyType, List<User> followers, List<User> following) {
-		this.userId = userId;
-		this.email = email;
-		this.nickname = nickname;
-		this.password = password;
-		this.status = status;
+		this.userId   	 = UUID.randomUUID();
+		this.email 	  	 = email;
+		this.nickname 	 = nickname;
+		this.password 	 = password;
+		this.status   	 = status;
 		this.blockedDate = blockedDate;
-		this.logins = logins;
+		this.logins 	 = logins;
 		this.privacyType = privacyType;
-		this.followers = followers;
-		this.following = following;
+		this.followers   = followers;
+		this.following   = following;
 	}
 
 	public UUID getUserId() {
