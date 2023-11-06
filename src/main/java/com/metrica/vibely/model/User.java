@@ -92,7 +92,7 @@ public class User {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname;
+    	if(nickname.length() <= 30 && nickname.matches("[a-zA-Z_-\\d]*")) this.nickname = nickname;
     }
 
     public String getEmail() {
@@ -100,7 +100,8 @@ public class User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+    	if(email.matches("\\b[a-zA-Z](\\d|\\w|\\.)*@\\w*\\.\\w{2,}\\b") 
+				&& isAscii(email)) { this.email = email; }
     }
 
     public List<User> getFollowers() {
@@ -166,6 +167,16 @@ public class User {
     public void setBlockedDate(LocalDate blockedDate) {
         this.blockedDate = blockedDate;
     }
+    
+
+	private boolean isAscii(String word) {
+		if(word != null && !word.isEmpty()) {
+			for(char check : word.toCharArray()) {
+				if(check < 0x20 || check > 0x7E) return false;
+			}
+		}
+		return true;
+	}
 
 }
 
