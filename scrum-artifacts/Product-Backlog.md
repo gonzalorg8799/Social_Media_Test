@@ -1,36 +1,36 @@
 # Product Backlog (🌐 Vibely)
 
-1 - As a **user** I want to **authenticate**
+1 - As a **user** I want to **authenticate** ✅
 
-2 - As an **admin** I want to **authenticate**
+2 - As an **admin** I want to **authenticate** ✅
 
-3 - As a **user** I want to **create** a profile
+3 - As a **user** I want to **create** a profile ✅
 
-4 - As a **user** I want to **watch** my profile
+4 - As a **user** I want to **watch** my profile ✅
 
-5 - As a **user** I want to **watch** my feed
+5 - As a **user** I want to **watch** my feed ✅
 
-6 - As a **user** I want to **search** another profiles
+6 - As a **user** I want to **search** another profiles ✅
 
-7 - As a **user** I want to **add** another profiles as friends
+7 - As a **user** I want to **add** another profiles as friends ✅
 
-8 - As a **user** I want to **edit** my profile
+8 - As a **user** I want to **edit** my profile ✅
 
-9 - As a **user** I want to **delete** my profile
+9 - As a **user** I want to **delete** my profile ✅
 
-10 - As a **user** I want to **send** messages to other users
+10 - As a **user** I want to **send** messages to other users ✅
 
-11 - As a **user** I want to **send** messages to a group of users
+11 - As a **user** I want to **send** messages to a group of users ✅
 
-12 - As a **user** I want to **upload** posts
+12 - As a **user** I want to **upload** posts ✅
 
-13 - As a **user** I want to **like** posts
+13 - As a **user** I want to **like** posts ✅
 
-14 - As a **user** I want to **comment** posts
+14 - As a **user** I want to **comment** posts ✅
 
 15 - As a **user** I want to **share** posts
 
-16 - As a **user** I want to **delete** posts
+16 - As a **user** I want to **delete** posts ✅
 
 17 - As a **user** I want to **import** my data from another RRSS
 

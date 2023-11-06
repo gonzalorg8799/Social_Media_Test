@@ -4,8 +4,19 @@
         "title": "Vibely API",
         "version": "1.0"
     },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "vibely backend server"
+        }
+    ],
+    "security": [
+        {
+            "ApiKeyAuth": []
+        }
+    ],
     "paths": {
-        "/users/{username}": {
+        "/{username}": {
             "parameters": [
                 {
                     "in": "path",
@@ -18,6 +29,7 @@
                 }
             ],
             "get": {
+                "tags": ["USER"],
                 "summary": "Get user's information",
                 "description": "Retrieve information about a specific user",
                 "responses": {
@@ -39,6 +51,7 @@
                 }
             },
             "put": {
+                "tags": ["USER"],
                 "summary": "Modify user's information",
                 "description": "Modify specific user's information",
                 "parameters": [
@@ -49,7 +62,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "JSON Web Token"
+                        "description": "API Key"
                     }
                 ],
                 "requestBody": {
@@ -100,10 +113,35 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "tags": ["USER"],
+                "summary": "",
+                "description": "Delete user's information",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "API Key"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The element was deleted successfully"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
             }
         },
-        "/users/auth": {
+        "/login": {
             "post": {
+                "tags": ["USER"],
                 "summary": "Authenticate user",
                 "description": "Authenticate a user using username and password",
                 "requestBody": {
@@ -111,21 +149,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "type": "string",
-                                        "description": "users name"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "description": "users password"
-                                    }
-                                },
-                                "example": {
-                                    "username": "ElonMusk",
-                                    "password": "CyberMechanicus"
-                                }
+                                "$ref": "#/components/schemas/UserLogin"
                             }
                         }
                     }
@@ -155,8 +179,9 @@
                 }
             }
         },
-        "/users/signup": {
+        "/signup": {
             "post": {
+                "tags": ["USER"],
                 "summary": "Sign up a new user",
                 "description": "",
                 "requestBody": {
@@ -164,26 +189,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "type": "string",
-                                        "description": "users name"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "description": "users password"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "description": "users email"
-                                    }
-                                },
-                                "example": {
-                                    "username": "@jdoe",
-                                    "password": "CyberMechanicus",
-                                    "email": "johndoe@email.com"
-                                }
+                                "$ref": "#/components/schemas/UserSignup"
                             }
                         }
                     }
@@ -209,6 +215,278 @@
                             }
                         }
                     }
+                }
+            }
+        },
+        "/users/search": {
+            "parameters": [
+                {
+                    "in": "query",
+                    "name": "username",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "username"
+                }
+            ],
+            "get": {
+                "tags": ["USER"],
+                "summary": "Search user",
+                "description": "Search user by username or nickname",
+                "responses": {
+                    "200": {
+                        "description": "successful search",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "search": [
+                                        {
+                                            "username":"@jdoe",
+                                            "nickname":"John Doe"
+                                        },
+                                        {
+                                            "username": "@jonathan",
+                                            "nickname": "Jonathan"
+                                        },
+                                        {
+                                            "username": "@jennifer",
+                                            "nickname": "jen shaud57" 
+                                        }
+                                    ],
+                                    "total": 3
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User NOT FOUND"
+                    }
+                }
+            }
+
+        },
+        "/{username}/follow": {
+            "put": {
+                "tags": ["USER"],
+                "description": "",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserFollow"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "follow successfully"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "400":{
+                        "description": "the username is incorrect"
+                    },
+                    "401":{
+                        "description": "incorrect apiKey"
+                    },
+                    "404":{
+                        "description": "user not found"
+                    }
+                }
+                
+            }
+        },
+        "/{username}/{post_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "username",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "username"
+                },
+                {
+                    "in": "path",
+                    "name": "post_id",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "post search"
+                }
+            ],
+            "get": {
+                "tags": ["POST"],
+                "summary": "Search a post",
+                "description": "Search a post by id",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful search",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
+                                    "likes": "5",
+                                    "comments": "17",
+                                    "saved": "5"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post NOT FOUND"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["POST"],
+                "summary": "create a new post",
+                "description": "",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string",
+                                "description": "post"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Post created!!"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Creation post is invalid",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "too large"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["POST"],
+                "summary": "",
+                "description": "Delete post",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The element was deleted successfully"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            } 
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-Api-Key",
+                "description": "Provide your API key in the 'X-Api-Key' header."
+            }
+        },
+        "schemas": {
+            "UserGet": {
+
+            },
+            "UserPut": {
+
+            },
+            "UserLogin": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "users name"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "users password"
+                    }
+                },
+                "example": {
+                    "username": "@jdoe",
+                    "password": "CyberMechanicus"
+                }
+            },
+            "UserSignup": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "users name"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "users password"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "users email"
+                    }
+                },
+                "example": {
+                    "username": "@jdoe",
+                    "password": "CyberMechanicus",
+                    "email": "johndoe@email.com"
+                }
+            },
+            "UserFollow": {
+                "type":"object",
+                "properties": {
+                    "username":{
+                        "type": "string",
+                        "description": "name of the new friend"
+                    }
+                },
+                "example": {
+                    "username":"@jennifer",
+                    "description":"@johndoe want to follow @jennifer"
                 }
             }
         }

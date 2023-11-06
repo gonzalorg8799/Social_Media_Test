@@ -1,4 +1,4 @@
-package com.metrica.vibely.model;
+package com.metrica.vibely.model.enumerator;
 
 public enum PrivacyType {
     
