@@ -1,20 +1,20 @@
 # Product Backlog (🌐 Vibely)
 
-1 - As a **user** I want to **authenticate**
+1 - As a **user** I want to **authenticate** ✅
 
-2 - As an **admin** I want to **authenticate**
+2 - As an **admin** I want to **authenticate** ✅
 
-3 - As a **user** I want to **create** a profile
+3 - As a **user** I want to **create** a profile ✅
 
-4 - As a **user** I want to **watch** my profile
+4 - As a **user** I want to **watch** my profile ✅
 
 5 - As a **user** I want to **watch** my feed
 
-6 - As a **user** I want to **search** another profiles
+6 - As a **user** I want to **search** another profiles ✅
 
-7 - As a **user** I want to **add** another profiles as friends
+7 - As a **user** I want to **add** another profiles as friends ✅
 
-8 - As a **user** I want to **edit** my profile
+8 - As a **user** I want to **edit** my profile ✅
 
 9 - As a **user** I want to **delete** my profile
 
