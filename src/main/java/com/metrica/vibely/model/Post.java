@@ -8,6 +8,9 @@ public class Post {
 	private String userId;
 	private String content;
 	
+	public Post() {
+		
+	}
 	public Post(String postId, int likes, int saved, int comments, String userId, String content) {
 		super();
 		this.postId   = postId;
