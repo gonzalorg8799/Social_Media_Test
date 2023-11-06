@@ -16,7 +16,7 @@
         }
     ],
     "paths": {
-        "/users/{username}": {
+        "/{username}": {
             "parameters": [
                 {
                     "in": "path",
@@ -139,7 +139,7 @@
                 }
             }
         },
-        "/users/login": {
+        "/login": {
             "post": {
                 "tags": ["USER"],
                 "summary": "Authenticate user",
@@ -179,7 +179,7 @@
                 }
             }
         },
-        "/users/signup": {
+        "/signup": {
             "post": {
                 "tags": ["USER"],
                 "summary": "Sign up a new user",
@@ -218,16 +218,16 @@
                 }
             }
         },
-        "/users": {
+        "/users/search": {
             "parameters": [
                 {
                     "in": "query",
-                    "name": "search",
+                    "name": "username",
                     "required": true,
                     "schema": {
                         "type": "string"
                     },
-                    "description": "user search"
+                    "description": "username"
                 }
             ],
             "get": {
@@ -266,19 +266,13 @@
             }
 
         },
-        "/users/follow": {
+        "/{username}/follow": {
             "put": {
                 "tags": ["USER"],
                 "description": "",
-                "parameters": [
+                "security": [
                     {
-                        "in": "header",
-                        "name": "X-Api-Key",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "Api key"
+                        "ApiKeyAuth":[]
                     }
                 ],
                 "requestBody": {
@@ -293,10 +287,23 @@
                 },
                 "responses": {
                     "200": {
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "follow successfully"
+                                }
+                            }
+                        },
                         "description": "OK"
                     },
                     "400":{
-                        "description": "invalid username"
+                        "description": "the username is incorrect"
+                    },
+                    "401":{
+                        "description": "incorrect apiKey"
+                    },
+                    "404":{
+                        "description": "user not found"
                     }
                 }
                 
@@ -327,6 +334,11 @@
                 "tags": ["POST"],
                 "summary": "Search a post",
                 "description": "Search a post by id",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful search",
@@ -348,14 +360,20 @@
             },
             "post": {
                 "tags": ["POST"],
-                "summary": "Search a post",
+                "summary": "create a new post",
                 "description": "",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/UserSignup"
+                                "type": "string",
+                                "description": "post"
                             }
                         }
                     }
@@ -387,15 +405,9 @@
                 "tags": ["POST"],
                 "summary": "",
                 "description": "Delete post",
-                "parameters": [
+                "security": [
                     {
-                        "in": "header",
-                        "name": "Authorization",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "description": "API Key"
+                        "ApiKeyAuth":[]
                     }
                 ],
                 "responses": {
