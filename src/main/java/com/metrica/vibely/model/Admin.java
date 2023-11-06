@@ -2,12 +2,13 @@ package com.metrica.vibely.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public class Admin extends User {
 	public Admin() {
 		super();
 	}
-	public Admin(String userId, 
+	public Admin(UUID userId, 
 				 String email, 
 				 String nickname, 
 				 String password, 

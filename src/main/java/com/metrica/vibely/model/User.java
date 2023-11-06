@@ -2,9 +2,10 @@ package com.metrica.vibely.model;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 public class User {
-	private String userId;
+	private UUID userId;
 	private String email;
 	private String nickname;
 	private String password;
@@ -18,7 +19,7 @@ public class User {
 	public User() {
 		
 	}
-	public User(String userId, String email, String nickname, String password, Status status, LocalDate blockedDate,
+	public User(UUID userId, String email, String nickname, String password, Status status, LocalDate blockedDate,
 			Integer logins, PrivacyType privacyType, List<User> followers, List<User> following) {
 		this.userId = userId;
 		this.email = email;
@@ -32,11 +33,11 @@ public class User {
 		this.following = following;
 	}
 
-	public String getUserId() {
+	public UUID getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(UUID userId) {
 		this.userId = userId;
 	}
 
