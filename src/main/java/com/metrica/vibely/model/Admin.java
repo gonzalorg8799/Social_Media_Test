@@ -1,8 +1,6 @@
 package com.metrica.vibely.model;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import com.metrica.vibely.model.enumerator.PrivacyType;
 import com.metrica.vibely.model.enumerator.Status;
@@ -15,7 +13,7 @@ public class Admin extends User {
     }
 
     public Admin(
-            UUID userId,
+            java.util.UUID userId,
             String username,
             String password,
             String nickname,
@@ -27,7 +25,7 @@ public class Admin extends User {
             PrivacyType privacyType,
             Status status,
             Integer logins,
-            LocalDate blockedDate) {
+            java.time.LocalDate blockedDate) {
         this.setUserId(userId);
         this.setUsername(username);
         this.setPassword(password);
