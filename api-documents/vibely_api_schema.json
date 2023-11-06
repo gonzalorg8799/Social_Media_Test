@@ -6,8 +6,13 @@
     },
     "servers": [
         {
-            "url": "http://localhost:5000",
+            "url": "http://localhost:8080",
             "description": "vibely backend server"
+        }
+    ],
+    "security": [
+        {
+            "ApiKeyAuth": []
         }
     ],
     "paths": {
@@ -24,6 +29,7 @@
                 }
             ],
             "get": {
+                "tags": ["USER"],
                 "summary": "Get user's information",
                 "description": "Retrieve information about a specific user",
                 "responses": {
@@ -45,6 +51,7 @@
                 }
             },
             "put": {
+                "tags": ["USER"],
                 "summary": "Modify user's information",
                 "description": "Modify specific user's information",
                 "parameters": [
@@ -55,7 +62,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "description": "JSON Web Token"
+                        "description": "API Key"
                     }
                 ],
                 "requestBody": {
@@ -106,10 +113,35 @@
                         }
                     }
                 }
+            },
+            "delete": {
+                "tags": ["USER"],
+                "summary": "",
+                "description": "Delete user's information",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "API Key"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The element was deleted successfully"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
             }
         },
         "/users/login": {
             "post": {
+                "tags": ["USER"],
                 "summary": "Authenticate user",
                 "description": "Authenticate a user using username and password",
                 "requestBody": {
@@ -117,21 +149,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "type": "string",
-                                        "description": "users name"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "description": "users password"
-                                    }
-                                },
-                                "example": {
-                                    "username": "@jdoe",
-                                    "password": "CyberMechanicus"
-                                }
+                                "$ref": "#/components/schemas/UserLogin"
                             }
                         }
                     }
@@ -163,6 +181,7 @@
         },
         "/users/signup": {
             "post": {
+                "tags": ["USER"],
                 "summary": "Sign up a new user",
                 "description": "",
                 "requestBody": {
@@ -170,26 +189,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "username": {
-                                        "type": "string",
-                                        "description": "users name"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "description": "users password"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "description": "users email"
-                                    }
-                                },
-                                "example": {
-                                    "username": "@jdoe",
-                                    "password": "CyberMechanicus",
-                                    "email": "johndoe@email.com"
-                                }
+                                "$ref": "#/components/schemas/UserSignup"
                             }
                         }
                     }
@@ -231,9 +231,9 @@
                 }
             ],
             "get": {
+                "tags": ["USER"],
                 "summary": "Search user",
                 "description": "Search user by username or nickname",
-                
                 "responses": {
                     "200": {
                         "description": "successful search",
@@ -268,6 +268,7 @@
         },
         "/users/follow": {
             "put": {
+                "tags": ["USER"],
                 "description": "",
                 "parameters": [
                     {
@@ -285,17 +286,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "type":"object",
-                                "properties": {
-                                    "username":{
-                                        "type": "string",
-                                        "description": "name of the new friend"
-                                    }
-                                },
-                                "example": {
-                                    "username":"@jennifer",
-                                    "description":"@johndoe want to follow @jennifer"
-                                }
+                                "$ref": "#/components/schemas/UserFollow"
                             }
                         }
                     }
@@ -309,6 +300,76 @@
                     }
                 }
                 
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-Api-Key",
+                "description": "Provide your API key in the 'X-Api-Key' header."
+            }
+        },
+        "schemas": {
+            "UserGet": {
+
+            },
+            "UserPut": {
+
+            },
+            "UserLogin": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "users name"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "users password"
+                    }
+                },
+                "example": {
+                    "username": "@jdoe",
+                    "password": "CyberMechanicus"
+                }
+            },
+            "UserSignup": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "users name"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "users password"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "users email"
+                    }
+                },
+                "example": {
+                    "username": "@jdoe",
+                    "password": "CyberMechanicus",
+                    "email": "johndoe@email.com"
+                }
+            },
+            "UserFollow": {
+                "type":"object",
+                "properties": {
+                    "username":{
+                        "type": "string",
+                        "description": "name of the new friend"
+                    }
+                },
+                "example": {
+                    "username":"@jennifer",
+                    "description":"@johndoe want to follow @jennifer"
+                }
             }
         }
     }
