@@ -1,19 +1,32 @@
 {
 	"info": {
-		"_postman_id": "3e51d889-aa52-4d80-bea9-43330400f7c0",
+		"_postman_id": "8bf31604-d8bf-45bc-bb08-f50d20f11df0",
 		"name": "Vibely API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30865303"
+		"_exporter_id": "30866100"
 	},
 	"item": [
 		{
 			"name": "users",
 			"item": [
 				{
-					"name": "{username}",
+					"name": "UserInfo",
 					"item": [
 						{
-							"name": "Get user's information",
+							"name": "UserInfo",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [
@@ -103,7 +116,128 @@
 							]
 						},
 						{
-							"name": "Modify user's information",
+							"name": "UserInfo404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}users/username",
+									"host": [
+										"{{baseUrl}}users"
+									],
+									"path": [
+										"username"
+									]
+								},
+								"description": "Retrieve information about a specific user"
+							},
+							"response": [
+								{
+									"name": "user information retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"username\": \"@jdoe\",\n    \"nickname\": \"John Doe\",\n    \"email\": \"johndoe@email.com\"\n  }\n}"
+								},
+								{
+									"name": "User NOT FOUND",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ModifyUser",
+					"item": [
+						{
+							"name": "ModifyUser",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "PUT",
 								"header": [
@@ -118,7 +252,153 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"password\": \"@jdoe\",\n  \"username\": \"CyberMechanicus\",\n  \"email\": \"johndoe@email.com\"\n}",
+									"raw": "{\n  \"password\": \"CyberMechanicus\",\n  \"username\": \"@jdoe\",\n  \"email\": \"johndoe@email.com\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}users/username",
+									"host": [
+										"{{baseUrl}}users"
+									],
+									"path": [
+										"username"
+									]
+								},
+								"description": "Modify specific user's information"
+							},
+							"response": [
+								{
+									"name": "successful modification",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "invalid body",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\",\n  \"username\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"message\": \"invalid body\"\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "ModifyUser400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"password\": \"Cyber\",\n  \"username\": \"@jdoe\",\n  \"email\": \"johndoe@email.com\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -238,10 +518,10 @@
 					]
 				},
 				{
-					"name": "auth",
+					"name": "Authenticate",
 					"item": [
 						{
-							"name": "Authenticate user",
+							"name": "AuthenticateUser",
 							"event": [
 								{
 									"listen": "test",
@@ -273,7 +553,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"@ElonMusk\",\n  \"password\": \"CyberMechanicus\"\n}",
+									"raw": "{\n  \"username\": \"@jdoe\",\n  \"password\": \"CyberMechanicus\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -390,7 +670,7 @@
 							]
 						},
 						{
-							"name": "Authenticate user 401",
+							"name": "AuthenticateUser401",
 							"event": [
 								{
 									"listen": "test",
@@ -422,7 +702,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"username\": \"@ElonMusk\",\n  \"password\": \"Cyber\"\n}",
+									"raw": "{\n  \"username\": \"@jdoe\",\n  \"password\": \"Cyber\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -541,10 +821,10 @@
 					]
 				},
 				{
-					"name": "signup",
+					"name": "SignUp",
 					"item": [
 						{
-							"name": "Sign up a new user",
+							"name": "SignUp",
 							"event": [
 								{
 									"listen": "test",
@@ -692,7 +972,7 @@
 							]
 						},
 						{
-							"name": "Sign up a new user 400",
+							"name": "SignUp400",
 							"event": [
 								{
 									"listen": "test",
@@ -851,11 +1131,11 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 400\", function () { \r",
-											"    pm.response.to.have.status(400); \r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
 											"});\r",
-											"pm.test(\"Array length is as expected\", function () {     \r",
-											"    var jsonData = pm.response.json();     \r",
+											"pm.test(\"Array length is as expected\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
 											"    pm.expect(Object.keys(jsonData).length).to.equal(2);\r",
 											"});"
 										],
@@ -864,7 +1144,7 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -986,7 +1266,7 @@
 							]
 						},
 						{
-							"name": "SearchUserByName 404",
+							"name": "SearchUserByName404",
 							"event": [
 								{
 									"listen": "test",
@@ -1002,7 +1282,7 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1126,7 +1406,7 @@
 					]
 				},
 				{
-					"name": "FollowUserByName",
+					"name": "FollowUser",
 					"item": [
 						{
 							"name": "FollowUserByName",
@@ -1145,7 +1425,7 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1172,13 +1452,6 @@
 									],
 									"path": [
 										"follow"
-									],
-									"query": [
-										{
-											"key": "",
-											"value": "",
-											"disabled": true
-										}
 									]
 								}
 							},
@@ -1280,7 +1553,7 @@
 							]
 						},
 						{
-							"name": "FollowUserByName 404",
+							"name": "FollowUserByName404",
 							"event": [
 								{
 									"listen": "test",
@@ -1296,7 +1569,7 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "PUT",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1451,7 +1724,7 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "DELETE",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1581,7 +1854,7 @@
 							]
 						},
 						{
-							"name": "SearchUserByName Copy 2",
+							"name": "DeleteUser404",
 							"event": [
 								{
 									"listen": "test",
@@ -1597,7 +1870,7 @@
 								}
 							],
 							"request": {
-								"method": "POST",
+								"method": "DELETE",
 								"header": [
 									{
 										"key": "Content-Type",
@@ -1609,14 +1882,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}users?search=jdoe",
+									"raw": "{{baseUrl}}users?search=@jdoe",
 									"host": [
 										"{{baseUrl}}users"
 									],
 									"query": [
 										{
 											"key": "search",
-											"value": "jdoe"
+											"value": "@jdoe"
 										}
 									]
 								}
@@ -1777,7 +2050,7 @@
 							"response": []
 						},
 						{
-							"name": "CreatePost TooLong",
+							"name": "CreatePost400",
 							"event": [
 								{
 									"listen": "test",
@@ -1823,6 +2096,373 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "Search",
+					"item": [
+						{
+							"name": "SearchPost",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}post/?username=@johndoe",
+									"host": [
+										"{{baseUrl}}post"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "@johndoe"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SearchPost404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}post/?username=@johndoe",
+									"host": [
+										"{{baseUrl}}post"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "@johndoe"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Delete",
+					"item": [
+						{
+							"name": "DeletePost",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () { \r",
+											"    pm.response.to.have.status(204); \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "auth",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}users/?username=@jdoe",
+									"host": [
+										"{{baseUrl}}users"
+									],
+									"path": [
+										""
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "@jdoe"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/signup",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"message\": \"Created!!\"\n  }\n}"
+								},
+								{
+									"name": "Creation data is invalid",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/signup",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"message\": \"username or password is invalid\"\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "DeletePost404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () { \r",
+											"    pm.response.to.have.status(404); \r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}users?search=jdoe",
+									"host": [
+										"{{baseUrl}}users"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "jdoe"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "User created successfully",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/signup",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"message\": \"Created!!\"\n  }\n}"
+								},
+								{
+									"name": "Creation data is invalid",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"<string>\",\n  \"password\": \"<string>\",\n  \"email\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/users/signup",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"users",
+												"signup"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"example\": {\n    \"message\": \"username or password is invalid\"\n  }\n}"
+								}
+							]
 						}
 					]
 				}
