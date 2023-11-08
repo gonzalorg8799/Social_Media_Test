@@ -309,7 +309,63 @@
                 
             }
         },
-        "/{username}/{post_id}": {
+        "/{username}/p":{
+            "parameters": [
+                {
+                    "in": "path",
+                    "name": "username",
+                    "required": true,
+                    "schema": {
+                        "type": "string"
+                    },
+                    "description": "username"
+                }
+            ],
+            "post": {
+                "tags": ["POST"],
+                "summary": "create a new post",
+                "description": "",
+                "security": [
+                    {
+                        "ApiKeyAuth":[]
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "string",
+                                "description": "post"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Post created successfully",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "Post created!!"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Creation post is invalid",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "message": "too large"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/{username}/p/{post_id}": {
             "parameters": [
                 {
                     "in": "path",
@@ -358,49 +414,7 @@
                     }
                 }
             },
-            "post": {
-                "tags": ["POST"],
-                "summary": "create a new post",
-                "description": "",
-                "security": [
-                    {
-                        "ApiKeyAuth":[]
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "string",
-                                "description": "post"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Post created successfully",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "Post created!!"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Creation post is invalid",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "too large"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+           
             "delete": {
                 "tags": ["POST"],
                 "summary": "",
