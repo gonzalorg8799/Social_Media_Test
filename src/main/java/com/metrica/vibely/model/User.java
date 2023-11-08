@@ -26,7 +26,6 @@ public class User {
 
     // <<-CONSTRUCTORS->>
 	public User() {
-		this.setUserId();
 	}
 
     public User(

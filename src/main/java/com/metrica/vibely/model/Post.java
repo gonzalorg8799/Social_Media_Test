@@ -15,7 +15,6 @@ public class Post {
 
     // <<-CONSTRUCTORS->>
 	public Post() {
-		this.setPostId();
 	}
 	
     public Post(
@@ -39,7 +38,7 @@ public class Post {
 	}
 	
     public void setPostId() {
-        this.postId = UUID.randomUUID();
+    	this.setPostId(UUID.randomUUID());
     }
     
     public void setPostId(UUID postId) {
