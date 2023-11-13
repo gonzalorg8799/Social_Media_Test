@@ -7,7 +7,7 @@
     "servers": [
         {
             "url": "http://localhost:8080",
-            "description": "vibely backend server"
+            "description": "Backend server for Vibely"
         }
     ],
     "security": [
@@ -16,25 +16,25 @@
         }
     ],
     "paths": {
-        "/{username}": {
+        "/users/{username}": {
             "parameters": [
                 {
                     "in": "path",
-                    "name": "username",
+                    "name": "Username",
                     "required": true,
                     "schema": {
                         "type": "string"
                     },
-                    "description": "The unique user's identifier"
+                    "description": "Users' unique identifier"
                 }
             ],
             "get": {
                 "tags": ["USER"],
                 "summary": "Get user's information",
-                "description": "Retrieve information about a specific user",
+                "description": "Retrieve information form a specific user identifier",
                 "responses": {
                     "200": {
-                        "description": "user information retrieved successfully",
+                        "description": "Users' information retrieved successfully",
                         "content": {
                             "application/json": {
                                 "example": {
@@ -46,14 +46,14 @@
                         }
                     },
                     "404": {
-                        "description": "User NOT FOUND"
+                        "description": "Desired user was not found"
                     }
                 }
             },
             "put": {
                 "tags": ["USER"],
-                "summary": "Modify user's information",
-                "description": "Modify specific user's information",
+                "summary": "Modifies users' information",
+                "description": "Modifies users' username, password or email",
                 "parameters": [
                     {
                         "in": "header",
@@ -78,21 +78,23 @@
                                         "properties": {
                                             "username": {
                                                 "type": "string",
-                                                "description": "User's name"
+                                                "description": "Users' name"
                                             },
                                             "password": {
                                                 "type": "string",
-                                                "description": "User's password"
+                                                "description": "Users' password"
                                             },
                                             "email": {
                                                 "type": "string",
-                                                "description": "User's email"
+                                                "description": "Users' email"
                                             }
                                         }
                                     }
                                 ],
                                 "example": {
-                                    "password": "CyberMechanicus"
+                                    "username": "newUsername",
+                                    "password": "newPassword",
+                                    "email": "newEmail@gmail.com"
                                 }
                             }
                         }
@@ -100,14 +102,14 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "successful modification"
+                        "description": "Credentials modification was successful"
                     },
                     "400": {
-                        "description": "invalid body",
+                        "description": "Invalid request",
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "invalid body"
+                                    "message": "Invalid request"
                                 }
                             }
                         }
@@ -117,7 +119,7 @@
             "delete": {
                 "tags": ["USER"],
                 "summary": "",
-                "description": "Delete user's information",
+                "description": "Deletes an user from Vibely",
                 "parameters": [
                     {
                         "in": "header",
@@ -131,15 +133,15 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "The element was deleted successfully"
+                        "description": "User was deleted successfully"
                     },
                     "404": {
-                        "description": "Resource not found"
+                        "description": "Desired user was not found"
                     }
                 }
             }
         },
-        "/login": {
+        "/users/login": {
             "post": {
                 "tags": ["USER"],
                 "summary": "Authenticate user",
@@ -156,7 +158,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "authentication successfully",
+                        "description": "Authentication was successful",
                         "content": {
                             "application/json": {
                                 "example": {
@@ -167,7 +169,7 @@
                         }
                     },
                     "401": {
-                        "description": "authentication failed",
+                        "description": "Invalid credentials, authentication failed",
                         "content": {
                             "application/json": {
                                 "example": {
@@ -179,7 +181,7 @@
                 }
             }
         },
-        "/signup": {
+        "/users/signup": {
             "post": {
                 "tags": ["USER"],
                 "summary": "Sign up a new user",
@@ -200,7 +202,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "Created!!"
+                                    "message": "User created successfully"
                                 }
                             }
                         }
@@ -210,7 +212,7 @@
                         "content": {
                             "application/json": {
                                 "example": {
-                                    "message": "username or password is invalid"
+                                    "message": "Invalid username or password"
                                 }
                             }
                         }
@@ -218,16 +220,16 @@
                 }
             }
         },
-        "/users/search": {
+        "/users": {
             "parameters": [
                 {
                     "in": "query",
-                    "name": "username",
+                    "name": "Username / Nickname",
                     "required": true,
                     "schema": {
                         "type": "string"
                     },
-                    "description": "username"
+                    "description": "Username / Nickname to search by"
                 }
             ],
             "get": {
@@ -236,7 +238,7 @@
                 "description": "Search user by username or nickname",
                 "responses": {
                     "200": {
-                        "description": "successful search",
+                        "description": "Search was successful",
                         "content": {
                             "application/json": {
                                 "example": {
@@ -260,19 +262,25 @@
                         }
                     },
                     "404": {
-                        "description": "User NOT FOUND"
+                        "description": "Desired user was not found"
                     }
                 }
             }
 
         },
-        "/{username}/follow": {
+        "/users/follow": {
             "put": {
                 "tags": ["USER"],
                 "description": "",
-                "security": [
+                "parameters": [
                     {
-                        "ApiKeyAuth":[]
+                        "in": "header",
+                        "name": "X-Api-Key",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "description": "Api key"
                     }
                 ],
                 "requestBody": {
@@ -287,7 +295,7 @@
                 },
                 "responses": {
                     "200": {
-                        "content": {
+"content": {
                             "application/json": {
                                 "example": {
                                     "message": "follow successfully"
@@ -297,142 +305,11 @@
                         "description": "OK"
                     },
                     "400":{
-                        "description": "the username is incorrect"
-                    },
-                    "401":{
-                        "description": "incorrect apiKey"
-                    },
-                    "404":{
-                        "description": "user not found"
+                        "description": "invalid username"
                     }
                 }
                 
             }
-        },
-        "/{username}/p":{
-            "parameters": [
-                {
-                    "in": "path",
-                    "name": "username",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    },
-                    "description": "username"
-                }
-            ],
-            "post": {
-                "tags": ["POST"],
-                "summary": "create a new post",
-                "description": "",
-                "security": [
-                    {
-                        "ApiKeyAuth":[]
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "string",
-                                "description": "post"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Post created successfully",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "Post created!!"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Creation post is invalid",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "message": "too large"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/{username}/p/{post_id}": {
-            "parameters": [
-                {
-                    "in": "path",
-                    "name": "username",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    },
-                    "description": "username"
-                },
-                {
-                    "in": "path",
-                    "name": "post_id",
-                    "required": true,
-                    "schema": {
-                        "type": "string"
-                    },
-                    "description": "post search"
-                }
-            ],
-            "get": {
-                "tags": ["POST"],
-                "summary": "Search a post",
-                "description": "Search a post by id",
-                "security": [
-                    {
-                        "ApiKeyAuth":[]
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful search",
-                        "content": {
-                            "application/json": {
-                                "example": {
-                                    "content": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy",
-                                    "likes": "5",
-                                    "comments": "17",
-                                    "saved": "5"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Post NOT FOUND"
-                    }
-                }
-            },
-           
-            "delete": {
-                "tags": ["POST"],
-                "summary": "",
-                "description": "Delete post",
-                "security": [
-                    {
-                        "ApiKeyAuth":[]
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "The element was deleted successfully"
-                    },
-                    "404": {
-                        "description": "Resource not found"
-                    }
-                }
-            } 
         }
     },
     "components": {
@@ -456,11 +333,11 @@
                 "properties": {
                     "username": {
                         "type": "string",
-                        "description": "users name"
+                        "description": "Users' name"
                     },
                     "password": {
                         "type": "string",
-                        "description": "users password"
+                        "description": "Users' password"
                     }
                 },
                 "example": {
@@ -473,15 +350,15 @@
                 "properties": {
                     "username": {
                         "type": "string",
-                        "description": "users name"
+                        "description": "Users' username"
                     },
                     "password": {
                         "type": "string",
-                        "description": "users password"
+                        "description": "Users' password"
                     },
                     "email": {
                         "type": "string",
-                        "description": "users email"
+                        "description": "Users' email"
                     }
                 },
                 "example": {
@@ -495,7 +372,7 @@
                 "properties": {
                     "username":{
                         "type": "string",
-                        "description": "name of the new friend"
+                        "description": "Followed users' Username"
                     }
                 },
                 "example": {
